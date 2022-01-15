@@ -1,0 +1,34 @@
+{
+  "name": "@micro-web/app",
+  "version": "0.1.0",
+  "description": "Extremely simple, flexible, transparent and component micro-application solution.",
+  "type": "module",
+  "source": "src/index.tsx",
+  "main": "./dist/micro-app.cjs",
+  "module": "./dist/micro-app.modern.js",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "microbundle --jsx React.createElement --external react --format modern,cjs",
+    "dev": "microbundle watch",
+    "test": "jest ./tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MinJieLiu/micro-app.git"
+  },
+  "author": "MinJieLiu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MinJieLiu/micro-app/issues"
+  },
+  "homepage": "https://github.com/MinJieLiu/micro-app#readme",
+  "devDependencies": {
+    "@types/react": "^17.0.38",
+    "microbundle": "^0.14.2",
+    "prettier": "^2.5.1",
+    "react": "^17.0.2"
+  }
+}
