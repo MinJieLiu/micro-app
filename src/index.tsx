@@ -69,6 +69,7 @@ export function MicroApp({
   useLayoutEffect(() => {
     mountRef.current = entry;
     setLoading(true);
+    setErrorMsg(undefined);
     handleLoadApp(entry)
       .then((res) => {
         setLoading(false);

@@ -4,11 +4,13 @@ specifiers:
   '@types/react': ^17.0.38
   prettier: ^2.5.1
   react: ^17.0.2
+  typescript: ^4.5.4
 
 devDependencies:
   '@types/react': 17.0.38
   prettier: 2.5.1
   react: 17.0.2
+  typescript: 4.5.4
 
 packages:
 
@@ -60,4 +62,10 @@ packages:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
+    dev: true
+
+  /typescript/4.5.4:
+    resolution: {integrity: sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
     dev: true
