@@ -1,5 +1,5 @@
 import type { ReactNode, RefObject, CSSProperties } from 'react';
-import { useLayoutEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 
 export type Entry = string | (() => Promise<ResponseModule>);
 
