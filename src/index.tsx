@@ -82,6 +82,7 @@ export function MicroApp({
         }
       })
       .catch((msg) => {
+        setLoading(false);
         setErrorMsg(
           typeof msg === 'string'
             ? msg
