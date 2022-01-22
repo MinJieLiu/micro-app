@@ -1,7 +1,7 @@
 import type { ReactNode, RefObject, CSSProperties } from 'react';
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-export type Entry = string | (() => Promise<ResponseModule>);
+export type Entry = string | (() => Promise<unknown>);
 
 export interface MicroAppProps {
   /**
@@ -10,20 +10,26 @@ export interface MicroAppProps {
    */
   entry: Entry;
   /**
-   * 加载中节点
+   * 加载中反馈
    */
   fallback?: ReactNode;
   /**
-   * 错误信息渲染
+   * 渲染错误信息
    */
   renderError?: (message: string) => ReactNode;
+  /**
+   * className
+   */
   className?: string;
+  /**
+   * style
+   */
   style?: CSSProperties;
   [key: string]: unknown;
 }
 
 /**
- * 导出格式
+ * App 格式
  */
 export interface AppConfig {
   /**
@@ -57,65 +63,63 @@ export function MicroApp({
 }: MicroAppProps) {
   // 传递给子应用的节点
   const containerRef = useRef<HTMLDivElement>(null);
-  // 判断加载后当前组件是否在挂载中
-  const mountRef = useRef<Entry | undefined>();
   // 子应用配置
   const configRef = useRef<AppConfig>();
   // 加载中
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   // 错误信息
   const [errorMsg, setErrorMsg] = useState<string>();
 
-  useLayoutEffect(() => {
-    mountRef.current = entry;
-    setLoading(true);
-    setErrorMsg(undefined);
+  useEffect(() => {
     handleLoadApp(entry)
-      .then((res) => {
-        setLoading(false);
-        return handleErrors(res, entry, containerRef);
-      })
+      .then((res) => resolveErrors(res, entry, containerRef))
       .then((config) => {
-        if (mountRef.current === entry) {
-          configRef.current = config;
-          config.mount?.(props);
+        setLoading(false);
+        configRef.current = config;
+        if (config.mount) {
+          config.mount(props);
         }
       })
       .catch((msg) => {
+        console.error(msg);
         setLoading(false);
         setErrorMsg(
           typeof msg === 'string'
             ? msg
-            : msg?.message ?? `Failed to load: ${entry}`
+            : (msg && msg.message) || `Failed to load: ${entry}`
         );
       });
     return () => {
-      configRef.current?.unmount?.();
-      mountRef.current = undefined;
-      configRef.current = undefined;
+      const config = configRef.current;
+      if (config && config.unmount) {
+        config.unmount();
+      }
     };
-  }, [entry]);
+  }, []);
+  const config = configRef.current;
 
   return (
     <div className={className} ref={containerRef} style={style}>
       {errorMsg
-        ? renderError?.(errorMsg) ?? errorMsg
+        ? renderError
+          ? renderError(errorMsg)
+          : errorMsg
         : loading && fallback
         ? fallback
-        : configRef.current?.render?.(props)}
+        : config && config.render && config.render(props)}
     </div>
   );
 }
 
 function handleLoadApp(entry: Entry): Promise<ResponseModule> {
   if (typeof entry === 'function') {
-    return entry();
+    return entry() as Promise<ResponseModule>;
   }
   const source = `${entry}?microAppEnv&t=${Date.now()}`;
   return import(/* @vite-ignore */ source);
 }
 
-function handleErrors(
+function resolveErrors(
   res: ResponseModule,
   entry: Entry,
   containerRef: RefObject<HTMLElement>
