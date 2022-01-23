@@ -1,0 +1,38 @@
+{
+  "name": "@micro-web/sub",
+  "version": "0.2.0",
+  "description": "@micro-web/app 微前端方案应用接入",
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "micro",
+    "micro app",
+    "micro vite",
+    "vite plugin"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MinJieLiu/micro-app.git"
+  },
+  "author": "MinJieLiu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MinJieLiu/micro-app/issues"
+  },
+  "homepage": "https://github.com/MinJieLiu/micro-app#readme",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11"
+  }
+}
