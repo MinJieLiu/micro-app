@@ -1,6 +1,6 @@
 {
   "name": "@micro-web/sub",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "@micro-web/app 微前端方案应用接入",
   "type": "module",
   "module": "./dist/index.js",

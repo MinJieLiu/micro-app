@@ -7,21 +7,12 @@ import { defineMicroApp } from './defineMicroApp';
  */
 export function withReactMicroApp<P>(App: React.FC<P>) {
   return defineMicroApp((container) => {
-    let handleRender: (props: P) => void;
-
-    function Main(props: P) {
-      const [state, setState] = React.useState(props);
-      handleRender = setState;
-      return <App {...state} />;
+    function render(props: P) {
+      ReactDOM.render(<App {...props} />, container);
     }
-
     return {
-      mount(props: P) {
-        ReactDOM.render(<Main {...props} />, container);
-      },
-      render(props: P) {
-        handleRender?.(props);
-      },
+      mount: render,
+      render: render,
       unmount() {
         ReactDOM.unmountComponentAtNode(container);
       },
