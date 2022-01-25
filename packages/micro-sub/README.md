@@ -16,19 +16,26 @@ pnpm i @micro-web/sub
 ## 使用
 
 ```tsx
-import { withReactMicroApp } from '@micro-web/sub';
-import App from './App';
+import { defineMicroApp } from '@micro-web/sub';
+import App, { AppProps } from './App';
 
-export default withReactMicroApp(App);
+export default defineMicroApp((container) => {
+  function render(props: AppProps) {
+    ReactDOM.render(<App {...props} />, container);
+  }
+  return {
+    mount: render,
+    render: render,
+    unmount() {
+      ReactDOM.unmountComponentAtNode(container);
+    },
+  };
+});
 ```
 
 ### `defineMicroApp`
 
 需配合插件 ` @micro-web/vite-plugin`。其主要作用将 CSS 通过 `link` 标签插入到主应用的动态节点上。
-
-### `withReactMicroApp`
-
-提供更便捷的方式定义导出 App，也可直接使用 `defineMicroApp`。
 
 [npm-image]: https://img.shields.io/npm/v/@micro-web/sub.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/@micro-web/sub

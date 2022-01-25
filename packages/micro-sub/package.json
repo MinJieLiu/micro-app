@@ -1,6 +1,6 @@
 {
   "name": "@micro-web/sub",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "description": "@micro-web/app 微前端方案应用接入",
   "type": "module",
   "module": "./dist/index.js",
@@ -30,9 +30,5 @@
   "files": [
     "src",
     "dist"
-  ],
-  "devDependencies": {
-    "@types/react": "^17.0.38",
-    "@types/react-dom": "^17.0.11"
-  }
+  ]
 }
