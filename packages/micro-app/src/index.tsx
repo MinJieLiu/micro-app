@@ -1,9 +1,14 @@
-import type { ReactNode, RefObject, CSSProperties } from 'react';
+import type {
+  ReactNode,
+  RefObject,
+  CSSProperties,
+  HTMLAttributes,
+} from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 
 export type Entry = string | (() => Promise<unknown>);
 
-export interface MicroAppProps {
+export interface MicroAppProps extends HTMLAttributes<HTMLElement> {
   /**
    * 加载地址
    * @example //localhost:3002/src/main.tsx
@@ -25,7 +30,10 @@ export interface MicroAppProps {
    * style
    */
   style?: CSSProperties;
-  [key: string]: unknown;
+  /**
+   * 传递给子应用的参数
+   */
+  forwardProps?: Record<string, any>;
 }
 
 /**
@@ -59,6 +67,7 @@ export function MicroApp({
   renderError,
   className,
   style,
+  forwardProps,
   ...props
 }: MicroAppProps) {
   // 传递给子应用的节点
@@ -74,11 +83,15 @@ export function MicroApp({
     handleLoadApp(entry)
       .then((res) => resolveErrors(res, entry, containerRef))
       .then((config) => {
-        setLoading(false);
-        configRef.current = config;
         if (config.mount) {
-          config.mount(props);
+          setLoading(false);
+          configRef.current = config;
+          config.mount(forwardProps);
+          return;
         }
+        // render 模式处理
+        configRef.current = config;
+        setLoading(false);
       })
       .catch((msg) => {
         console.error(msg);
@@ -99,14 +112,14 @@ export function MicroApp({
   const config = configRef.current;
 
   return (
-    <div className={className} ref={containerRef} style={style}>
+    <div {...props} ref={containerRef}>
       {errorMsg
         ? renderError
           ? renderError(errorMsg)
           : errorMsg
         : loading && fallback
         ? fallback
-        : config && config.render && config.render(props)}
+        : config && config.render && config.render(forwardProps)}
     </div>
   );
 }

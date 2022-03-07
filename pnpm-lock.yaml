@@ -19,12 +19,7 @@ importers:
       react: 17.0.2
 
   packages/micro-sub:
-    specifiers:
-      '@types/react': ^17.0.38
-      '@types/react-dom': ^17.0.11
-    devDependencies:
-      '@types/react': 17.0.38
-      '@types/react-dom': 17.0.11
+    specifiers: {}
 
   packages/micro-vite-plugin:
     specifiers:
@@ -36,12 +31,6 @@ packages:
 
   /@types/prop-types/15.7.4:
     resolution: {integrity: sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==}
-    dev: true
-
-  /@types/react-dom/17.0.11:
-    resolution: {integrity: sha512-f96K3k+24RaLGVu/Y2Ng3e1EbZ8/cVJvypZWd7cy0ofCBaf2lcM46xNhycMZ2xGwbBjRql7hOlZ+e2WlJ5MH3Q==}
-    dependencies:
-      '@types/react': 17.0.38
     dev: true
 
   /@types/react/17.0.38:
