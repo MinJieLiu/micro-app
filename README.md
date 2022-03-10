@@ -20,8 +20,8 @@ pnpm i @micro-web/app
   className="micro-app"
   entry="//localhost:3002/src/main.tsx"
   fallback={<Spinner />}
-  history={history}
-/>;
+  forwardProps={{ history }}
+/>
 ```
 
 [npm-image]: https://img.shields.io/npm/v/@micro-web/app.svg?style=flat-square

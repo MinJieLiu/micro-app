@@ -1,6 +1,6 @@
 {
   "name": "@micro-web/app",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Extremely simple, flexible, transparent and component micro-application solution.",
   "type": "module",
   "module": "./dist/index.js",
