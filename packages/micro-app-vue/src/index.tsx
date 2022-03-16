@@ -55,12 +55,12 @@ export interface AppConfig {
 }
 
 export interface ResponseModule {
-  default: (container: HTMLElement | null) => Promise<AppConfig> | AppConfig;
+  default: (container: HTMLElement | null) => AppConfig;
 }
 
 export type ResponseFunc = (
   container: HTMLElement | null
-) => Promise<AppConfig> | AppConfig;
+) => AppConfig;
 
 const DEBUG_MODE = false;
 
@@ -93,8 +93,8 @@ export const MicroApp = defineComponent({
 
     handleLoadApp(props.items.entry)
       .then(
-        async (res) =>
-          await resolveErrors(res, props.items.entry, containerRef),
+         (res) =>
+           resolveErrors(res, props.items.entry, containerRef),
       )
       .then((config) => {
         if (config.mount) {
@@ -146,7 +146,7 @@ function handleLoadApp(entry: Entry): Promise<ResponseModule> {
   return import(/* @vite-ignore */ source);
 }
 
-async function resolveErrors(
+function resolveErrors(
   res: ResponseModule,
   entry: Entry,
   containerRef: Ref<HTMLElement | null>
@@ -158,7 +158,7 @@ async function resolveErrors(
   if (typeof res.default !== 'function') {
     return Promise.reject(new Error(`[MicroApp] - 导出格式不正确: ${entry}`));
   }
-  const config = (await res.default(containerRef.value)) as AppConfig;
+  const config = (res.default(containerRef.value)) as AppConfig;
   if (DEBUG_MODE) {
     console.log('config :', config);
   }
