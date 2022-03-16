@@ -5,17 +5,17 @@
 [![Minified size][min-size-image]][bundlephobia-url]
 [![Gzip size][gzip-size-image]][bundlephobia-url]
 
-**English** | [中文](./README.zh-CN.md)
+**中文** | [English](./README.md)
 
-**simplest**、**flexible** and **componentized** micro frontend solutions
+极致**简单**、**灵活**和**组件化**的微应用解决方案
 
-## Setup
+## 安装
 
 ```bash
 pnpm i @micro-web/app
 ```
 
-## Usage
+## 使用
 
 ```tsx
 <MicroApp
