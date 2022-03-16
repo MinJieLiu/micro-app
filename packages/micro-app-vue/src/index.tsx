@@ -6,7 +6,7 @@ import {
   type CSSProperties,
   ref,
   type Ref,
-  watchEffect,
+  onBeforeUnmount,
 } from 'vue';
 
 export type Entry = string | (() => Promise<unknown>);
@@ -91,32 +91,38 @@ export const MicroApp = defineComponent({
     // 错误信息
     const errorMsg = ref<string>();
 
-    watchEffect(() => {
-      handleLoadApp(props.items.entry)
-        .then(
-          async (res) =>
-            await resolveErrors(res, props.items.entry, containerRef)
-        )
-        .then((config) => {
-          if (config.mount) {
-            loading.value = false;
-            configRef.value = config;
-            config.mount(props.items.forwardProps);
-            return;
-          }
-          // render 模式处理
+    handleLoadApp(props.items.entry)
+      .then(
+        async (res) =>
+          await resolveErrors(res, props.items.entry, containerRef),
+      )
+      .then((config) => {
+        if (config.mount) {
+          loading.value = false;
           configRef.value = config;
-          loading.value = false;
-        })
-        .catch((msg) => {
-          console.error(msg);
-          loading.value = false;
-          errorMsg.value =
-            typeof msg === 'string'
-              ? msg
-              : msg?.message || `Failed to load: ${props.items.entry}`;
-        });
+          config.mount(props.items.forwardProps);
+          return;
+        }
+        // render 模式处理
+        configRef.value = config;
+        loading.value = false;
+      })
+      .catch((msg) => {
+        console.error(msg);
+        loading.value = false;
+        errorMsg.value =
+          typeof msg === 'string'
+            ? msg
+            : msg?.message || `Failed to load: ${props.items.entry}`;
+      });
+
+    onBeforeUnmount(() => {
+      const config = configRef.value;
+      if (config?.unmount) {
+        config.unmount();
+      }
     });
+
     const config = configRef.value;
     return () => (
       <div {...props} ref={containerRef}>
