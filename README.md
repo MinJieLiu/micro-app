@@ -26,6 +26,17 @@ pnpm i @micro-web/app
 />
 ```
 
+or
+
+```tsx
+<MicroApp
+  className="micro-app"
+  entry="()=>import('your-sub-app')"
+  fallback={<Spinner />}
+  forwardProps={{ history }}
+/>
+```
+
 [npm-image]: https://img.shields.io/npm/v/@micro-web/app.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/@micro-web/app
 [downloads-image]: http://img.shields.io/npm/dm/@micro-web/app.svg?style=flat-square
