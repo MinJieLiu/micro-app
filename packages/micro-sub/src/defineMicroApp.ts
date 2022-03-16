@@ -16,7 +16,7 @@ export interface AppConfig<P> {
   unmount?: () => void;
 }
 
-type MicroCallback<P> = (container: HTMLElement) => AppConfig<P>;
+type MicroCallback<P> = (container: HTMLElement) => Promise<AppConfig<P>>|AppConfig<P>;
 
 export interface DefineApp<P> extends MicroCallback<P> {
   /**
@@ -29,8 +29,8 @@ export interface DefineApp<P> extends MicroCallback<P> {
  * 定义 micro app，额外处理样式问题
  */
 export function defineMicroApp<P>(callback: MicroCallback<P>) {
-  const defineApp: DefineApp<P> = (container: HTMLElement) => {
-    const appConfig = callback(container);
+  const defineApp: DefineApp<P> = async (container: HTMLElement) => {
+    const appConfig = await callback(container);
 
     // 处理样式局部插入
     const mountFn = appConfig.mount;

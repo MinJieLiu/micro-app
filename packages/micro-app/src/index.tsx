@@ -55,7 +55,7 @@ export interface AppConfig {
 }
 
 export interface ResponseModule {
-  default: (container: HTMLElement | null) => AppConfig;
+  default: (container: HTMLElement | null) => Promise<AppConfig>|AppConfig;
 }
 
 /**
@@ -81,7 +81,7 @@ export function MicroApp({
 
   useEffect(() => {
     handleLoadApp(entry)
-      .then((res) => resolveErrors(res, entry, containerRef))
+      .then( async (res) => await resolveErrors(res, entry, containerRef))
       .then((config) => {
         if (config.mount) {
           setLoading(false);
@@ -132,7 +132,7 @@ function handleLoadApp(entry: Entry): Promise<ResponseModule> {
   return import(/* @vite-ignore */ source);
 }
 
-function resolveErrors(
+async function resolveErrors(
   res: ResponseModule,
   entry: Entry,
   containerRef: RefObject<HTMLElement>
@@ -140,7 +140,7 @@ function resolveErrors(
   if (typeof res.default !== 'function') {
     return Promise.reject(`[MicroApp] - 导出格式不正确: ${entry}`);
   }
-  const config = res.default(containerRef.current) as AppConfig;
+  const config = await res.default(containerRef.current) as AppConfig;
   if (!(config.mount || config.render)) {
     return Promise.reject(
       `[MicroApp] - 导出方法缺失 'mount' 或 'render': ${entry}`
