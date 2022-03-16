@@ -28,8 +28,6 @@ pnpm i @micro-web/app
 
 或者
 
-or
-
 ```tsx
 <MicroApp
   className="micro-app"
