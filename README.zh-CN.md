@@ -37,6 +37,7 @@ or
   fallback={<Spinner />}
   forwardProps={{ history }}
 />
+```
 
 [npm-image]: https://img.shields.io/npm/v/@micro-web/app.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/@micro-web/app
