@@ -3,10 +3,16 @@ import { transformWithEsbuild } from 'vite';
 
 const imagesRE = new RegExp(`\\.(png|webp|jpg|gif|jpeg|tiff|svg|bmp)($|\\?)`);
 
+export interface microWebPluginParams {
+  styleAppendTo?: string;
+}
+
 /**
  * @micro-web/app 微前端方案插件
  */
-export function microWebPlugin(): Plugin {
+export function microWebPlugin({
+  styleAppendTo = 'parentNode',
+}: microWebPluginParams): Plugin {
   return {
     name: 'micro-web-plugin',
     enforce: 'post',
@@ -61,13 +67,17 @@ function createLink(href) {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
   link.href = href;
+  link.id = href;
   return link;
 }
 
+const styles = ${cssChunksStr}.map(css => createLink(new URL(css, import.meta['url'])));
+
 defineApp.styleInject = (parentNode) => {
-  ${cssChunksStr}.forEach((css) => {
-    const link = createLink(new URL(css, import.meta['url']));
-    parentNode.prepend(link);
+  styles.forEach((link) => {
+    if (!document.getElementById(link.id)) {
+      ${styleAppendTo}.append(link);
+    }
   });
 };
 

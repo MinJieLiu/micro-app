@@ -1,6 +1,6 @@
 {
   "name": "@micro-web/vite-plugin",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "@micro-web/app 微前端方案 Vite 插件",
   "main": "./index.js",
   "types": "./index.d.ts",
