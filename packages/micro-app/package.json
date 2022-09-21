@@ -30,7 +30,7 @@
   ],
   "homepage": "https://github.com/MinJieLiu/micro-app#readme",
   "devDependencies": {
-    "@types/react": "^17.0.38",
-    "react": "^17.0.2"
+    "@types/react": "^18.0.20",
+    "react": "^18.2.0"
   }
 }
