@@ -27,6 +27,6 @@
   },
   "homepage": "https://github.com/MinJieLiu/micro-app#readme",
   "devDependencies": {
-    "vite": "^2.7.13"
+    "vite": "^3.1.3"
   }
 }

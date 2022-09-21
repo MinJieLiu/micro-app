@@ -16,7 +16,14 @@
   },
   "homepage": "https://github.com/MinJieLiu/micro-app#readme",
   "devDependencies": {
-    "prettier": "^2.5.1",
-    "typescript": "^4.5.4"
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.3"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "typescript"
+      ]
+    }
   }
 }
